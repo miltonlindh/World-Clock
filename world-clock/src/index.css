@@ -1,15 +1,25 @@
 :root {
-  --bg: #0f1220;
-  --card: #161a2b;
-  --muted: #9aa3b2;
-  --text: #e6e8ef;
-  --accent: #6ee7ff;
+  /*theme colors + some global vars*/
+  --bg: #eaf7f0;
+  --card: #fdfdfd;
+  --muted: #667085;
+  --text: #1e293b;
+  --accent: #7cbfa6;
+  --accent2: #95d5c0;
+  --accent3: #ffb6c1;
+  --border: rgba(0, 0, 0, 0.06);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --r-s: 6px;
+  --r-m: 10px;
+  --r-l: 14px;
 }
 
 * {
   box-sizing: border-box;
 }
 
+/*make app fill screen height*/
 html,
 body,
 #root {
@@ -20,37 +30,38 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
+  line-height: 1.6;
 }
 
+/* Layout container */
 .container {
-  max-width: 1100px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 20px;
 }
 
-.header {
+/*header styling*/
+header.header {
   display: flex;
   align-items: center;
-  gap: 16px;
   justify-content: space-between;
-  margin-bottom: 16px;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
 }
 
+/*site logo link*/
 .logo {
   font-weight: 800;
   text-decoration: none;
   color: var(--text);
+  font-size: 1.3rem;
 }
 
-.nav a {
-  color: var(--text);
-  opacity: 0.9;
-  text-decoration: none;
-  margin-right: 12px;
-}
-
-.controls {
+/*clock setting controls in header*/
+nav.controls {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -60,25 +71,44 @@ main {
   display: block;
 }
 
-.footer {
-  opacity: 0.6;
-  margin-top: 40px;
+/*footer style*/
+footer.footer {
+  opacity: 0.7;
+  margin-top: 36px;
   font-size: 14px;
+  text-align: center;
 }
 
+/*default spacing for sections*/
+section {
+  display: block;
+  margin-bottom: 24px;
+}
+
+/* Grid & Cards */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 16px;
 }
 
+/*city cards*/
 .card {
   background: var(--card);
-  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+/*little hover lift for cards*/
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .thumb {
@@ -87,8 +117,9 @@ main {
   height: 120px;
 }
 
+/*card body and title*/
 .card-body {
-  padding: 16px;
+  padding: 14px;
   display: grid;
   gap: 8px;
 }
@@ -102,38 +133,74 @@ main {
 
 .card-title h3 {
   margin: 0;
-  font-size: 18px;
-}
-
-button,
-.ghost {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 6px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-}
-
-button:hover,
-.ghost:hover {
-  border-color: rgba(255, 255, 255, 0.35);
+  font-size: 17px;
+  letter-spacing: 0.1px;
 }
 
 .muted {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
 }
 
-.form {
+/* Buttons */
+button,
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: var(--r-m);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.05s ease;
+}
+
+/*hover + active states for buttons*/
+button:hover,
+.btn:hover {
+  background: var(--accent2);
+}
+
+button:active,
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Forms */
+form.form {
   background: var(--card);
-  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-m);
   padding: 16px;
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+legend {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+/*label + inputs grouped*/
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+/*two columns for larger screens*/
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -146,49 +213,62 @@ button:hover,
   }
 }
 
+/*inputs + selects consistent style*/
 input,
 select {
   width: 100%;
   padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: #0f1325;
+  border-radius: var(--r-s);
+  border: 1px solid var(--border-strong);
+  background: #f6faf8;
   color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease;
 }
 
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(124, 191, 166, 0.2);
+}
+
+/* Digital Clock */
 .digital {
-  font-size: 28px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
 }
 
+/* Analog Clock */
 .analog .dial {
   position: relative;
-  width: 180px;
-  height: 180px;
-  margin: 12px auto;
+  width: 170px;
+  height: 170px;
+  margin: 8px auto;
   border-radius: 50%;
-  background: radial-gradient(circle at center, #1a1d3b, #0d1024);
-  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05), 0 0 15px rgba(0, 0, 0, 0.6);
-  overflow: hidden;
+  background: transparent;
 }
 
+/*minute ticks*/
 .analog .tick {
   position: absolute;
   left: 50%;
   top: 50%;
   width: 2px;
   height: 6px;
-  background: rgba(255, 255, 255, 0.35);
-  transform-origin: center center;
   border-radius: 1px;
+  background: #a3a3a3;
+  transform-origin: center center;
 }
 
+/*big ticks every 5 minutes*/
 .analog .tick.big {
   height: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: #475569;
 }
 
+/*clock hands*/
 .analog .hand {
   position: absolute;
   left: 50%;
@@ -199,93 +279,110 @@ select {
 
 .analog .hand.hour {
   width: 4px;
-  height: 90px;
-  margin-top: -45px;
-  background: #fff;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
+  height: 88px;
+  margin-top: -44px;
+  background: #1f2937;
 }
 
 .analog .hand.minute {
   width: 3px;
-  height: 110px;
-  margin-top: -63px;
-  background: #fff;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  height: 118px;
+  margin-top: -59px;
+  background: #1f2937;
 }
 
 .analog .hand.second {
   width: 2px;
-  height: 140px;
-  margin-top: -70px;
-  background: var(--accent);
-  box-shadow: 0 0 12px var(--accent);
+  height: 136px;
+  margin-top: -68px;
+  background: var(--accent3);
 }
 
-.analog .hand::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 25%;
-  top: 100%;
-  left: 0;
-  background: inherit;
-  opacity: 0.7;
-  border-radius: 2px;
-}
-
+/*center dot for analog clock*/
 .analog .center {
   position: absolute;
-  width: 14px;
-  height: 14px;
-  background: #fff;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  left: calc(50% - 7px);
-  top: calc(50% - 7px);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+  left: calc(50% - 6px);
+  top: calc(50% - 6px);
+  background: var(--accent);
+  border: 1px solid var(--border-strong);
   z-index: 10;
 }
 
+/* Detail View */
 .city-detail {
   position: relative;
-  min-height: 70vh;
-  border-radius: 16px;
+  min-height: 68vh;
+  border-radius: var(--r-l);
   overflow: hidden;
-  background: #10142a;
+  background: #f9fafb;
   background-size: cover;
   background-position: center;
+  border: 1px solid var(--border);
 }
 
 .city-detail .overlay {
-  backdrop-filter: blur(4px) saturate(120%);
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(236, 253, 245, 0.75);
   min-height: inherit;
-  padding: 32px;
+  padding: 26px;
   display: grid;
-  gap: 12px;
+  gap: 10px;
   align-content: center;
   text-align: center;
 }
 
 .city-detail h1 {
-  font-size: 36px;
+  font-size: 32px;
   margin: 0;
+  color: var(--text);
 }
 
 .city-detail p {
   color: var(--muted);
 }
 
+/*back link under city detail*/
 .city-detail .back {
-  color: var(--text);
+  color: var(--accent);
   text-decoration: none;
   opacity: 0.9;
 }
 
+.city-detail .back:hover {
+  text-decoration: underline;
+}
+
+/* Utilities */
 .stack.gap {
   display: grid;
   gap: 16px;
 }
 
 .error {
-  color: #ff9b9b;
+  color: #ef4444;
+}
+
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Accessibility helper for screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

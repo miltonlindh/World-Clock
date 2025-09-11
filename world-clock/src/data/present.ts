@@ -1,11 +1,19 @@
-export type PresetCity = { name: string; country: string; tz: string; imageUrl?: string }
+//type for a single preset city, used in quick add list
+export type PresetCity = {
+  name: string
+  country: string
+  tz: string
+  imageUrl?: string
+}
 
+//preset cities list for quick add buttons in UI
+//makes it faster to add common places without typing them manually
 export const PRESET_CITIES: PresetCity[] = [
   { name: 'Stockholm', country: 'Sweden', tz: 'Europe/Stockholm' },
   { name: 'Oslo', country: 'Norway', tz: 'Europe/Oslo' },
   { name: 'Copenhagen', country: 'Denmark', tz: 'Europe/Copenhagen' },
   { name: 'Helsinki', country: 'Finland', tz: 'Europe/Helsinki' },
-  { name: 'London', country: 'UK', tz: 'Europe/London' },
+  { name: 'London', country: 'United Kingdom', tz: 'Europe/London' },
   { name: 'Paris', country: 'France', tz: 'Europe/Paris' },
   { name: 'Berlin', country: 'Germany', tz: 'Europe/Berlin' },
   { name: 'Madrid', country: 'Spain', tz: 'Europe/Madrid' },
@@ -25,5 +33,7 @@ export const PRESET_CITIES: PresetCity[] = [
   { name: 'Shanghai', country: 'China', tz: 'Asia/Shanghai' },
   { name: 'Tokyo', country: 'Japan', tz: 'Asia/Tokyo' },
   { name: 'Sydney', country: 'Australia', tz: 'Australia/Sydney' },
-  { name: 'Auckland', country: 'New Zealand', tz: 'Pacific/Auckland' }
+  { name: 'Auckland', country: 'New Zealand', tz: 'Pacific/Auckland' },
+  { name: 'Cape Town', country: 'South Africa', tz: 'Africa/Johannesburg' },
+  { name: 'Reykjavik', country: 'Iceland', tz: 'Atlantic/Reykjavik' }
 ]

@@ -1,36 +1,36 @@
-//display mode for clocks
+//what kind of clock mode user picked
 export type DisplayMode = 'digital' | 'analog'
 
-//time zone type
+//just a string but easier to understand what it means
 export type IANATimeZone = string
 
-//model representing a saved city
+//single city object we save in state
 export interface City {
   id: string
   name: string
   country: string
   tz: IANATimeZone
-  imageUrl?: string
+  imageUrl?: string //optional if user adds a custom image
 }
 
-//settings controlling how clocks are displayed
+//settings for how clocks are shown in the UI
 export interface ClockSettings {
   mode: DisplayMode
   showSeconds: boolean
   hour12: boolean
 }
 
-//root app state persisted in localstorage
+//whole app state saved in localStorage
 export interface AppState {
   cities: City[]
   settings: ClockSettings
 }
 
-//helper types 
-export type CityCreate = Omit<City, 'id'>
-export type CitySummary = Pick<City, 'id' | 'name' | 'tz'>
+//helper types to reuse city structure in different places
+export type CityCreate = Omit<City, 'id'> //for adding a new city, id gets created automatically
+export type CitySummary = Pick<City, 'id' | 'name' | 'tz'> //for lightweight views
 
-//type guard for validating data loaded from localStorage
+//make sure stored city data is valid before using it
 export function isCity(value: unknown): value is City {
   if (typeof value !== 'object' || value === null) return false
   const c = value as City

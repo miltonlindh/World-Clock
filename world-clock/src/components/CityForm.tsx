@@ -8,56 +8,60 @@ export default function CityForm() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  //local controlled inputs
+  //default values so i don’t have to type every time when testing
   const [name, setName] = useState('Stockholm')
   const [country, setCountry] = useState('Sweden')
   const [tz, setTz] = useState('Europe/Stockholm')
   const [imageUrl, setImageUrl] = useState('')
 
-  //load time zones on mount
   useEffect(() => {
     ;(async () => {
       try {
         const list = await fetchTimezones()
         setTzs(list)
+        //if stockholm isn’t there, just pick first tz
         if (!list.includes('Europe/Stockholm')) setTz(list[0] ?? '')
       } catch (e: any) {
-        setError(e?.message ?? 'Failed to load time zones')
+        //store the error so we can show message instead of crashing
+        setError(e?.message ?? "Couldn't load time zones right now")
       } finally {
         setLoading(false)
       }
     })()
   }, [])
 
-  //handle submit
   function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!tz) return
+    //add new city to context state, saves in localStorage too
     addCity({ name, country, tz, imageUrl: imageUrl || undefined })
-    //reset some fields after add
+    //reset fields so it’s easier to add another one quickly
     setName('')
     setCountry('')
     setImageUrl('')
   }
 
-  if (loading) return <p>Loading time zones…</p>
+  //if still loading show this first
+  if (loading) return <p aria-live="polite">Loading time zones…</p>
 
+  //if fetch fails show error + retry button
   if (error) {
     return (
-      <div className="form">
-        <p className="error">Could not load time zones: {error}</p>
+      <div className="form" role="alert">
+        <p className="error">Couldn't load time zones: {error}</p>
         <button
           type="button"
           onClick={() => {
             setError(null)
             setLoading(true)
+            //try again if fetch failed before
             ;(async () => {
               try {
                 const list = await fetchTimezones()
                 setTzs(list)
                 if (!list.includes('Europe/Stockholm')) setTz(list[0] ?? '')
               } catch (e: any) {
-                setError(e?.message ?? 'Failed to load time zones')
+                setError(e?.message ?? "Couldn't load time zones right now")
               } finally {
                 setLoading(false)
               }
@@ -66,40 +70,57 @@ export default function CityForm() {
         >
           Try again
         </button>
-        <p className="muted">Tip: a fallback list is used when offline.</p>
       </div>
     )
   }
 
   return (
     <form className="form" onSubmit={onSubmit}>
-      <div className="row">
-        <input
-          placeholder="City"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required
-        />
-        <input
-          placeholder="Country"
-          value={country}
-          onChange={e => setCountry(e.target.value)}
-          required
-        />
-      </div>
-      <div className="row">
-        <select value={tz} onChange={e => setTz(e.target.value)} required>
-          {tzs.map(z => (
-            <option key={z} value={z}>{z}</option>
-          ))}
-        </select>
-        <input
-          placeholder="Image URL (optional)"
-          value={imageUrl}
-          onChange={e => setImageUrl(e.target.value)}
-        />
-      </div>
-      <button type="submit">Add city</button>
+      <fieldset>
+        <legend>Add a city</legend>
+        <div className="row">
+          <label>
+            City
+            <input
+              placeholder="e.g. Stockholm"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required
+            />
+          </label>
+          <label>
+            Country
+            <input
+              placeholder="e.g. Sweden"
+              value={country}
+              onChange={e => setCountry(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+
+        <div className="row">
+          <label>
+            Time zone
+            <select value={tz} onChange={e => setTz(e.target.value)} required>
+              {tzs.map(z => (
+                <option key={z} value={z}>{z}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Image URL <span style={{ fontWeight: 400 }}>(optional)</span>
+            <input
+              placeholder="https://..."
+              value={imageUrl}
+              onChange={e => setImageUrl(e.target.value)}
+            />
+          </label>
+        </div>
+
+        {/*simple button no icons etc*/}
+        <button type="submit">Add city</button>
+      </fieldset>
     </form>
   )
 }

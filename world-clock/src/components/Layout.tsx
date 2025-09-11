@@ -1,5 +1,3 @@
-// Layout with header controls to switch clock settings.
-
 import { Link } from 'react-router-dom'
 import { useCity } from '../context/CityContext'
 
@@ -8,50 +6,57 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="container">
-      {/* Header */}
-      <header className="header">
-        {/* Logo / home link */}
-        <Link to="/" className="logo">🌍 World Clock</Link>
+      {/*top header with logo + settings*/}
+      <header className="header" role="banner">
+        {/*logo links back to homepage*/}
+        <Link to="/" className="logo" aria-label="Go to homepage">
+          World Clock
+        </Link>
 
-
-        {/* Quick controls for the clocks */}
-        <div className="controls">
-          {/* Toggle seconds on/off */}
+        {/*clock settings user can change quickly*/}
+        <nav className="controls" aria-label="Clock settings">
+          {/*toggle seconds on/off*/}
           <label>
             <input
               type="checkbox"
               checked={state.settings.showSeconds}
               onChange={e => updateSettings({ showSeconds: e.target.checked })}
             />
-            {' '}Seconds
+            {' '}Show seconds
           </label>
 
-          {/* Toggle 12h/24h */}
+          {/*switch between 24h and 12h format*/}
           <label>
             <input
               type="checkbox"
               checked={state.settings.hour12}
               onChange={e => updateSettings({ hour12: e.target.checked })}
             />
-            {' '}12h
+            {' '}12h format
           </label>
 
-          {/* Switch between digital / analog */}
-          <select
-            value={state.settings.mode}
-            onChange={e => updateSettings({ mode: e.target.value as 'digital' | 'analog' })}
-          >
-            <option value="digital">Digital</option>
-            <option value="analog">Analog</option>
-          </select>
-        </div>
+          {/*choose between digital or analog clock mode*/}
+          <label>
+            <span className="sr-only">Select clock mode</span>
+            <select
+              value={state.settings.mode}
+              onChange={e => updateSettings({ mode: e.target.value as 'digital' | 'analog' })}
+              aria-label="Switch clock display mode"
+            >
+              <option value="digital">Digital</option>
+              <option value="analog">Analog</option>
+            </select>
+          </label>
+        </nav>
       </header>
 
-      {/* Main content */}
-      <main>{children}</main>
+      {/*main content from pages*/}
+      <main role="main">{children}</main>
 
-      {/* Footer */}
-      <footer className="footer">© {new Date().getFullYear()} World Clock</footer>
+      {/*simple footer, current year auto*/}
+      <footer className="footer" role="contentinfo">
+        © {new Date().getFullYear()} World Clock
+      </footer>
     </div>
   )
 }
